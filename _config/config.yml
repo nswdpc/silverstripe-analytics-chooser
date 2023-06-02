@@ -1,0 +1,6 @@
+---
+Name: nswdpc-analytics-chooser
+---
+SilverStripe\SiteConfig\SiteConfig:
+  extensions:
+    - 'NSWDPC\AnalyticsChooser\Extensions\SiteConfigExtension'

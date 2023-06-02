@@ -1,0 +1,27 @@
+{
+    "name": "nswdpc/silverstripe-analytics-chooser",
+    "description": "Analytics chooser extensions for site settings.",
+    "type": "silverstripe-vendormodule",
+    "keywords": [
+        "silverstripe",
+        "nsw",
+        "analytics"
+    ],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "James",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "silverstripe/siteconfig" : "^4 || ^5"
+    },
+    "suggest" : {
+        "nswdpc/silverstripe-csp" : "Nonce attribute value support"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "friendsofphp/php-cs-fixer": "^3"
+    }
+}
