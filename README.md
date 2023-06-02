@@ -24,7 +24,7 @@ Once installed, your theme will need to include the templates provided by this m
 ### Document <head>
 
 ```html
-<% include NSWDPC/Analytics/Implementation %>
+<% include NSWDPC/AnalyticsChooser/Implementation %>
 ```
 
 ### Document <body>
@@ -32,7 +32,7 @@ Once installed, your theme will need to include the templates provided by this m
 Apply an iframe if using GTM:
 
 ```html
-<% include NSWDPC/Analytics/GTMIframe %>
+<% include NSWDPC/AnalyticsChooser/GTMIframe %>
 ```
 
 You can override these templates in your project theme, in the usual Silverstripe way.
