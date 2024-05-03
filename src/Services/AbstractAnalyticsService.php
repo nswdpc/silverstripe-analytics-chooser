@@ -8,7 +8,6 @@ use SilverStripe\Core\Injector\Injector;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\View\HTML;
-use NSWDPC\Utilities\ContentSecurityPolicy\Nonce;
 
 /**
  * Provides an abstract implementation for analytics services
