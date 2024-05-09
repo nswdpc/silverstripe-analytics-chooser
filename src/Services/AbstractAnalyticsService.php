@@ -19,6 +19,19 @@ abstract class AbstractAnalyticsService {
     use Configurable;
 
     /**
+     * Allow a service to be enabled (default) or not in configuration
+     * @var bool
+     */
+    private static $enabled = true;
+
+    /**
+     * Determine whether service is enabled or not
+     */
+    public static function isEnabled() : bool {
+        return static::config()->get('enabled')? true : false;
+    }
+
+    /**
      * Return a string value for the implementation unique identifier
      */
     abstract public static function getCode() : string;
@@ -40,7 +53,7 @@ abstract class AbstractAnalyticsService {
     final public static function getImplementation(string $code) : ?AbstractAnalyticsService {
         $implementations = ClassInfo::subclassesFor( AbstractAnalyticsService::class, false);
         foreach($implementations as $implementation) {
-            if($implementation::getCode() == $code) {
+            if($implementation::isEnabled() && $implementation::getCode() == $code) {
                 $implementation = Injector::inst()->get( $implementation );
                 return $implementation;
             }
@@ -55,6 +68,9 @@ abstract class AbstractAnalyticsService {
         $implementations = ClassInfo::subclassesFor( AbstractAnalyticsService::class, false);
         $selections = [];
         foreach($implementations as $implementation) {
+            if(!$implementation::isEnabled()) {
+                continue;
+            }
             $selections[ $implementation::getCode() ] = $implementation::getDescription();
         }
         asort($selections);
