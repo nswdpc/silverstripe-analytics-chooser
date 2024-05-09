@@ -28,7 +28,7 @@ abstract class AbstractAnalyticsService {
      * Determine whether service is enabled or not
      */
     public static function isEnabled() : bool {
-        return static::config()->get('enabled')? true : false;
+        return static::config()->get('enabled') ? true : false;
     }
 
     /**
