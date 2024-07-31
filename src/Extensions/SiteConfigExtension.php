@@ -78,8 +78,11 @@ class SiteConfigExtension extends DataExtension
      * Template method to provide implementation of analytics
      */
     public function ProvideAnalyticsImplementation() : ?DBHTMLText {
-        if($this->owner->GoogleTagManagerCode && ($inst = $this->getAnalyticsImplementation())) {
-            return $inst->provide($this->owner->GoogleTagManagerCode);
+        if($inst = $this->getAnalyticsImplementation()) {
+            $context = [
+                'SiteConfig' => $this->owner
+            ];
+            return $inst->provide($this->owner->GoogleTagManagerCode ?? '', $context);
         } else {
             return null;
         }

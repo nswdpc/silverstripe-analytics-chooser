@@ -43,8 +43,10 @@ abstract class AbstractAnalyticsService {
     /**
      * Add requirements or similar to the current request, return template variable
      * for inclusion in template, or null
+     * @param string $code the analytics indentification code e.g. the GA4 config value
+     * @param array $context an array of custom context values to assist the service
      */
-    abstract public function provide(string $code = '') : ?DBHTMLText;
+    abstract public function provide(string $code = '', array $context = []) : ?DBHTMLText;
 
     /**
      * Return an instance of the implementation based on the code provided
