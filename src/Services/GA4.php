@@ -28,7 +28,11 @@ class GA4 extends AbstractAnalyticsService {
     /**
      * Add requirements or similar to the current request
      */
-    public function provide(string $code = '') : ?DBHTMLText {
+    public function provide(string $code = '', array $context = []) : ?DBHTMLText {
+        if(!$code) {
+            // a code is required
+            return null;
+        }
         // Set up inline script
         $gtagCode = $code;
         $code = json_encode(htmlspecialchars($code));
