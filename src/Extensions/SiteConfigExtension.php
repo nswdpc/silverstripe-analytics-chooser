@@ -3,11 +3,11 @@
 namespace NSWDPC\AnalyticsChooser\Extensions;
 
 use NSWDPC\AnalyticsChooser\Services\AbstractAnalyticsService;
-use Silverstripe\ORM\DataExtension;
-use Silverstripe\Forms\FieldList;
-use Silverstripe\Forms\CompositeField;
-use Silverstripe\Forms\DropdownField;
-use Silverstripe\Forms\TextField;
+use SilverStripe\ORM\DataExtension;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\CompositeField;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
