@@ -16,7 +16,6 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
  */
 class SiteConfigExtension extends DataExtension
 {
-
     /**
      * @var array
      * @config
@@ -66,10 +65,11 @@ class SiteConfigExtension extends DataExtension
     /**
      * Get the current analytics implementation
      */
-    public function getAnalyticsImplementation() : ?AbstractAnalyticsService {
+    public function getAnalyticsImplementation(): ?AbstractAnalyticsService
+    {
         $inst = null;
-        if($implementationCode = $this->owner->GoogleImplementation) {
-            $inst = AbstractAnalyticsService::getImplementation( $implementationCode );
+        if ($implementationCode = $this->owner->GoogleImplementation) {
+            $inst = AbstractAnalyticsService::getImplementation($implementationCode);
         }
         return $inst;
     }
@@ -77,8 +77,9 @@ class SiteConfigExtension extends DataExtension
     /**
      * Template method to provide implementation of analytics
      */
-    public function ProvideAnalyticsImplementation() : ?DBHTMLText {
-        if($inst = $this->getAnalyticsImplementation()) {
+    public function ProvideAnalyticsImplementation(): ?DBHTMLText
+    {
+        if ($inst = $this->getAnalyticsImplementation()) {
             $context = [
                 'SiteConfig' => $this->owner
             ];
@@ -91,7 +92,8 @@ class SiteConfigExtension extends DataExtension
     /**
      * Get all available implementations
      */
-    public function getAnalyticsImplementations() : array {
+    public function getAnalyticsImplementations(): array
+    {
         return AbstractAnalyticsService::getImplementations();
     }
 

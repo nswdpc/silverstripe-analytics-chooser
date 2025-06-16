@@ -10,15 +10,16 @@ use NSWDPC\Utilities\ContentSecurityPolicy\Nonce;
  * Use Injector to provide a value from a different implementation
  * @author James
  */
-class NonceProvider {
-
+class NonceProvider
+{
     use Injectable;
 
     /**
      * Return the value for the nonce attribute
      */
-    public function getNonceValue() : string {
-        if(class_exists(Nonce::class) && ($nonce = Nonce::getNonce())) {
+    public function getNonceValue(): string
+    {
+        if (class_exists(Nonce::class) && ($nonce = Nonce::getNonce())) {
             return $nonce;
         } else {
             return "";

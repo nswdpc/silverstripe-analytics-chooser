@@ -8,27 +8,30 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
  * GTM implementation
  * @author James
  */
-class GTM extends AbstractAnalyticsService {
-
+class GTM extends AbstractAnalyticsService
+{
     /**
      * @inheritdoc
      */
-    public static function getCode() : string {
+    public static function getCode(): string
+    {
         return "GTM";
     }
 
     /**
      * @inheritdoc
      */
-    public static function getDescription() : string {
+    public static function getDescription(): string
+    {
         return _t('AnalyticsChooser.GOOGLE_TAG_MANAGER', 'Google Tag Manager (gtm.js)');
     }
 
     /**
      * Add requirements or similar to the current request
      */
-    public function provide(string $code = '', array $context = []) : ?DBHTMLText {
-        if($code === '') {
+    public function provide(string $code = '', array $context = []): ?DBHTMLText
+    {
+        if ($code === '') {
             // a code is required
             return null;
         }
@@ -42,7 +45,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer', {$code});
 JAVASCRIPT;
         // @var DBHTMLText
-        if($script = parent::applyNonce($script)) {
+        if ($script = parent::applyNonce($script)) {
             return $script;
         } else {
             return null;
