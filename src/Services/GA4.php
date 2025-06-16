@@ -36,6 +36,7 @@ class GA4 extends AbstractAnalyticsService
             // a code is required
             return null;
         }
+
         // Set up inline script
         $gtagCode = $code;
         $code = json_encode(htmlspecialchars($code));

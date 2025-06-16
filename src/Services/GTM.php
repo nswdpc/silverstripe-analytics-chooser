@@ -35,6 +35,7 @@ class GTM extends AbstractAnalyticsService
             // a code is required
             return null;
         }
+
         $code = json_encode($code);
         $script =
 <<<JAVASCRIPT

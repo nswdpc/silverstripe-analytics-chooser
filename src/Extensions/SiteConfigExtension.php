@@ -14,13 +14,12 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
  * Provide administration selection options for choosing an Analytics service
  * For historical reasons the fields are prefixed Google*
  */
-class SiteConfigExtension extends DataExtension
+class SiteConfigExtension extends \SilverStripe\Core\Extension
 {
     /**
-     * @var array
      * @config
      */
-    private static $db = [
+    private static array $db = [
         'GoogleTagManagerCode' => 'Varchar(255)',
         'GoogleImplementation' => 'Varchar(16)'
     ];
@@ -71,6 +70,7 @@ class SiteConfigExtension extends DataExtension
         if ($implementationCode = $this->owner->GoogleImplementation) {
             $inst = AbstractAnalyticsService::getImplementation($implementationCode);
         }
+
         return $inst;
     }
 
@@ -79,7 +79,7 @@ class SiteConfigExtension extends DataExtension
      */
     public function ProvideAnalyticsImplementation(): ?DBHTMLText
     {
-        if ($inst = $this->getAnalyticsImplementation()) {
+        if (($inst = $this->getAnalyticsImplementation()) instanceof \NSWDPC\AnalyticsChooser\Services\AbstractAnalyticsService) {
             $context = [
                 'SiteConfig' => $this->owner
             ];

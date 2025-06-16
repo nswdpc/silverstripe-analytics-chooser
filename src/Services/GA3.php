@@ -35,6 +35,7 @@ class GA3 extends AbstractAnalyticsService
             // a code is required
             return null;
         }
+
         $code = json_encode(htmlspecialchars($code));
         $script =
 <<<JAVASCRIPT
