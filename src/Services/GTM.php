@@ -28,7 +28,7 @@ class GTM extends AbstractAnalyticsService {
      * Add requirements or similar to the current request
      */
     public function provide(string $code = '', array $context = []) : ?DBHTMLText {
-        if(!$code) {
+        if($code === '') {
             // a code is required
             return null;
         }
