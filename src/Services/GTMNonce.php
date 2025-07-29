@@ -35,7 +35,7 @@ class GTMNonce extends GTM
     #[\Override]
     public function provide(string $code = '', array $context = []): ?DBHTMLText
     {
-        if ($code === '' || $code === '0') {
+        if ($code === '') {
             // a code is required
             return null;
         }

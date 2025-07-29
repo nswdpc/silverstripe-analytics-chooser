@@ -31,7 +31,7 @@ class GA3 extends AbstractAnalyticsService
      */
     public function provide(string $code = '', array $context = []): ?DBHTMLText
     {
-        if ($code === '' || $code === '0') {
+        if ($code === '') {
             // a code is required
             return null;
         }
