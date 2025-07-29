@@ -11,6 +11,7 @@ use SilverStripe\Dev\TestOnly;
 class TestNoNonceProvider extends NonceProvider implements TestOnly
 {
 
+    #[\Override]
     public function getNonceValue(): string
     {
         return "";

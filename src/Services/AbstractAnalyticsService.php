@@ -19,15 +19,14 @@ abstract class AbstractAnalyticsService {
 
     /**
      * Allow a service to be enabled (default) or not in configuration
-     * @var bool
      */
-    private static $enabled = true;
+    private static bool $enabled = true;
 
     /**
      * Determine whether service is enabled or not
      */
     public static function isEnabled() : bool {
-        return static::config()->get('enabled') ? true : false;
+        return (bool) static::config()->get('enabled');
     }
 
     /**
@@ -55,10 +54,10 @@ abstract class AbstractAnalyticsService {
         $implementations = ClassInfo::subclassesFor( AbstractAnalyticsService::class, false);
         foreach($implementations as $implementation) {
             if($implementation::isEnabled() && $implementation::getCode() == $code) {
-                $implementation = Injector::inst()->get( $implementation );
-                return $implementation;
+                return Injector::inst()->get( $implementation );
             }
         }
+
         return null;
     }
 
@@ -72,8 +71,10 @@ abstract class AbstractAnalyticsService {
             if(!$implementation::isEnabled()) {
                 continue;
             }
+
             $selections[ $implementation::getCode() ] = $implementation::getDescription();
         }
+
         asort($selections);
         return $selections;
     }
@@ -81,11 +82,12 @@ abstract class AbstractAnalyticsService {
     /**
      * Try to apply a nonce to a script
      */
-    final public function applyNonce(string $script, $attributes = []) : DBHTMLText {
+    final public function applyNonce(string $script, array $attributes = []) : DBHTMLText {
         $nonceProvider = Injector::inst()->get( NonceProvider::class );
         if($nonceProvider && $nonceValue = $nonceProvider->getNonceValue()) {
             $attributes['nonce'] = $nonceValue;
         }
+
         $html = HTML::createTag(
             'script',
             $attributes,

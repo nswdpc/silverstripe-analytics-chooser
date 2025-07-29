@@ -28,10 +28,11 @@ class GA3 extends AbstractAnalyticsService {
      * Add requirements or similar to the current request
      */
     public function provide(string $code = '', array $context = []) : ?DBHTMLText {
-        if(!$code) {
+        if($code === '' || $code === '0') {
             // a code is required
             return null;
         }
+
         $code = json_encode(htmlspecialchars($code));
         $script =
 <<<JAVASCRIPT

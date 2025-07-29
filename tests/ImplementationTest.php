@@ -18,6 +18,7 @@ class ImplementationTest extends SapphireTest
 {
     protected $usesDatabase = true;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
