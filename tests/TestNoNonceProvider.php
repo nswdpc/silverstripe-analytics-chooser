@@ -1,0 +1,19 @@
+<?php
+
+namespace NSWDPC\AnalyticsChooser\Tests;
+
+use NSWDPC\AnalyticsChooser\Services\NonceProvider;
+use SilverStripe\Dev\TestOnly;
+
+/**
+ * Provide nonce values for script tags in tests
+ */
+class TestNoNonceProvider extends NonceProvider implements TestOnly
+{
+
+    public function getNonceValue(): string
+    {
+        return "";
+    }
+
+}
