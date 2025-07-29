@@ -13,8 +13,8 @@ use SilverStripe\View\HTML;
  * Provides an abstract implementation for analytics services
  * @author James
  */
-abstract class AbstractAnalyticsService {
-
+abstract class AbstractAnalyticsService
+{
     use Configurable;
 
     /**
@@ -25,19 +25,20 @@ abstract class AbstractAnalyticsService {
     /**
      * Determine whether service is enabled or not
      */
-    public static function isEnabled() : bool {
+    public static function isEnabled(): bool
+    {
         return (bool) static::config()->get('enabled');
     }
 
     /**
      * Return a string value for the implementation unique identifier
      */
-    abstract public static function getCode() : string;
+    abstract public static function getCode(): string;
 
     /**
      * Return a string value to describe to a CMS admin what this does
      */
-    abstract public static function getDescription() : string;
+    abstract public static function getDescription(): string;
 
     /**
      * Add requirements or similar to the current request, return template variable
@@ -45,16 +46,17 @@ abstract class AbstractAnalyticsService {
      * @param string $code the analytics indentification code e.g. the GA4 config value
      * @param array $context an array of custom context values to assist the service
      */
-    abstract public function provide(string $code = '', array $context = []) : ?DBHTMLText;
+    abstract public function provide(string $code = '', array $context = []): ?DBHTMLText;
 
     /**
      * Return an instance of the implementation based on the code provided
      */
-    final public static function getImplementation(string $code) : ?AbstractAnalyticsService {
-        $implementations = ClassInfo::subclassesFor( AbstractAnalyticsService::class, false);
-        foreach($implementations as $implementation) {
-            if($implementation::isEnabled() && $implementation::getCode() == $code) {
-                return Injector::inst()->get( $implementation );
+    final public static function getImplementation(string $code): ?AbstractAnalyticsService
+    {
+        $implementations = ClassInfo::subclassesFor(AbstractAnalyticsService::class, false);
+        foreach ($implementations as $implementation) {
+            if ($implementation::isEnabled() && $implementation::getCode() == $code) {
+                return Injector::inst()->get($implementation);
             }
         }
 
@@ -64,11 +66,12 @@ abstract class AbstractAnalyticsService {
     /**
      * Get all supported implementations
      */
-    final public static function getImplementations() : array {
-        $implementations = ClassInfo::subclassesFor( AbstractAnalyticsService::class, false);
+    final public static function getImplementations(): array
+    {
+        $implementations = ClassInfo::subclassesFor(AbstractAnalyticsService::class, false);
         $selections = [];
-        foreach($implementations as $implementation) {
-            if(!$implementation::isEnabled()) {
+        foreach ($implementations as $implementation) {
+            if (!$implementation::isEnabled()) {
                 continue;
             }
 
@@ -82,9 +85,10 @@ abstract class AbstractAnalyticsService {
     /**
      * Try to apply a nonce to a script
      */
-    final public function applyNonce(string $script, array $attributes = []) : DBHTMLText {
-        $nonceProvider = Injector::inst()->get( NonceProvider::class );
-        if($nonceProvider && $nonceValue = $nonceProvider->getNonceValue()) {
+    final public function applyNonce(string $script, array $attributes = []): DBHTMLText
+    {
+        $nonceProvider = Injector::inst()->get(NonceProvider::class);
+        if ($nonceProvider && $nonceValue = $nonceProvider->getNonceValue()) {
             $attributes['nonce'] = $nonceValue;
         }
 
@@ -93,7 +97,7 @@ abstract class AbstractAnalyticsService {
             $attributes,
             trim($script) // the script contents
         );
-        return DBField::create_field( DBHTMLText::class, $html);
+        return DBField::create_field(DBHTMLText::class, $html);
 
     }
 }

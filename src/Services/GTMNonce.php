@@ -9,13 +9,14 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
  * Ref: https://developers.google.com/tag-platform/tag-manager/web/csp
  * @author James
  */
-class GTMNonce extends GTM {
-
+class GTMNonce extends GTM
+{
     /**
      * @inheritdoc
      */
     #[\Override]
-    public static function getCode() : string {
+    public static function getCode(): string
+    {
         return "GTMNonce";
     }
 
@@ -23,7 +24,8 @@ class GTMNonce extends GTM {
      * @inheritdoc
      */
     #[\Override]
-    public static function getDescription() : string {
+    public static function getDescription(): string
+    {
         return _t('AnalyticsChooser.GOOGLE_TAG_MANAGER_NONCE_AWARE', 'Google Tag Manager with a Content Security Policy enabled - (gtm.js)');
     }
 
@@ -31,8 +33,9 @@ class GTMNonce extends GTM {
      * Add requirements or similar to the current request
      */
     #[\Override]
-    public function provide(string $code = '', array $context = []) : ?DBHTMLText {
-        if($code === '' || $code === '0') {
+    public function provide(string $code = '', array $context = []): ?DBHTMLText
+    {
+        if ($code === '' || $code === '0') {
             // a code is required
             return null;
         }

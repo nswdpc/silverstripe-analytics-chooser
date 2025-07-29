@@ -9,27 +9,30 @@ use SilverStripe\View\HTML;
  * GA4 implementation
  * @author James
  */
-class GA4 extends AbstractAnalyticsService {
-
+class GA4 extends AbstractAnalyticsService
+{
     /**
      * Return a string value for the implementation
      */
-    public static function getCode() : string {
+    public static function getCode(): string
+    {
         return "GA4";
     }
 
     /**
      * @inheritdoc
      */
-    public static function getDescription() : string {
+    public static function getDescription(): string
+    {
         return _t('AnalyticsChooser.GOOGLE_ANALYTICS_4', 'Google Analytics v4 (gtag.js)');
     }
 
     /**
      * Add requirements or similar to the current request
      */
-    public function provide(string $code = '', array $context = []) : ?DBHTMLText {
-        if($code === '' || $code === '0') {
+    public function provide(string $code = '', array $context = []): ?DBHTMLText
+    {
+        if ($code === '' || $code === '0') {
             // a code is required
             return null;
         }
@@ -53,7 +56,7 @@ JAVASCRIPT;
                 'async' => true
             ]
         );
-        $script->setValue( $preScript . "\n" . $script->getValue() );
+        $script->setValue($preScript . "\n" . $script->getValue());
         return $script;
 
     }
