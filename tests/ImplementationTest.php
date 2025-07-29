@@ -21,7 +21,7 @@ class ImplementationTest extends SapphireTest
     protected function setUp(): void
     {
         parent::setUp();
-        Injector::inst()->registerService(new TestNonceProvider(), NonceProvider::class);
+        Injector::inst()->registerService(TestNonceProvider::create(), NonceProvider::class);
     }
 
     public function testGetImplementations(): void
@@ -87,7 +87,7 @@ class ImplementationTest extends SapphireTest
     public function testGTMWithNoNonce(): void
     {
 
-        Injector::inst()->registerService(new TestNoNonceProvider(), NonceProvider::class);
+        Injector::inst()->registerService(TestNoNonceProvider::create(), NonceProvider::class);
 
         $siteConfig = SiteConfig::current_site_config();
         $siteConfig->GoogleImplementation = GTM::getCode();

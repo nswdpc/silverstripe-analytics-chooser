@@ -42,11 +42,6 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', {$code}, 'auto');
 ga('send', 'pageview');
 JAVASCRIPT;
-
-        if($script = parent::applyNonce($script)) {
-            return $script;
-        } else {
-            return null;
-        }
+        return parent::applyNonce($script);
     }
 }
