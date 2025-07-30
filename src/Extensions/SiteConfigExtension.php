@@ -15,7 +15,7 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
  * For historical reasons the fields are prefixed Google*
  * @property ?string $GoogleTagManagerCode
  * @property ?string $GoogleImplementation
- * @extends \SilverStripe\ORM\DataExtension<(\SilverStripe\SiteConfig\SiteConfig & static)>
+ * @extends \SilverStripe\Core\Extension<\SilverStripe\SiteConfig\SiteConfig&static>
  */
 class SiteConfigExtension extends \SilverStripe\Core\Extension
 {
