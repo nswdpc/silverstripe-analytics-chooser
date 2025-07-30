@@ -97,6 +97,7 @@ abstract class AbstractAnalyticsService
             $attributes,
             trim($script) // the script contents
         );
+        /* @phpstan-ignore return.type */
         return DBField::create_field(DBHTMLText::class, $html);
 
     }
