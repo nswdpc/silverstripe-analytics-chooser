@@ -53,7 +53,7 @@ JAVASCRIPT;
             'script',
             [
                 'src' => "https://www.googletagmanager.com/gtag/js?id=" . $gtagCode,
-                'async' => true
+                'async' => 'async'
             ]
         );
         $script->setValue($preScript . "\n" . $script->getValue());
