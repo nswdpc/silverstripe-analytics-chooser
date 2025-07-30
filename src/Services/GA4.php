@@ -47,21 +47,17 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', {$code});
 JAVASCRIPT;
+        $script = parent::applyNonce($script);
+        // GA4 requires gtag.js
+        $preScript = HTML::createTag(
+            'script',
+            [
+                'src' => "https://www.googletagmanager.com/gtag/js?id=" . $gtagCode,
+                'async' => 'async'
+            ]
+        );
+        $script->setValue($preScript . "\n" . $script->getValue());
+        return $script;
 
-        // @var DBHTMLText
-        if ($script = parent::applyNonce($script)) {
-            // GA4 requires gtag.js
-            $preScript = HTML::createTag(
-                'script',
-                [
-                    'src' => "https://www.googletagmanager.com/gtag/js?id=" . $gtagCode,
-                    'async' => true
-                ]
-            );
-            $script->setValue($preScript . "\n" . $script->getValue());
-            return $script;
-        } else {
-            return null;
-        }
     }
 }

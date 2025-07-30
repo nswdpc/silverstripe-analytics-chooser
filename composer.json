@@ -27,6 +27,7 @@
         "nswdpc/ci-files": "dev-v-4",
         "phpunit/phpunit": "^11",
         "phpstan/phpstan": "^2",
+        "phpstan/phpstan-phpunit": "^2",
         "rector/rector": "^2"
     },
     "autoload": {
