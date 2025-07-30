@@ -8,30 +8,34 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
  * GA3 implementation
  * @author James
  */
-class GA3 extends AbstractAnalyticsService {
-
+class GA3 extends AbstractAnalyticsService
+{
     /**
      * Return a string value for the implementation
      */
-    public static function getCode() : string {
+    public static function getCode(): string
+    {
         return "GA3";
     }
 
     /**
      * @inheritdoc
      */
-    public static function getDescription() : string {
+    public static function getDescription(): string
+    {
         return _t('AnalyticsChooser.GOOGLE_ANALYTICS_3', 'Google Analytics v3 (analytics.js)');
     }
 
     /**
      * Add requirements or similar to the current request
      */
-    public function provide(string $code = '', array $context = []) : ?DBHTMLText {
-        if(!$code) {
+    public function provide(string $code = '', array $context = []): ?DBHTMLText
+    {
+        if ($code === '') {
             // a code is required
             return null;
         }
+
         $code = json_encode(htmlspecialchars($code));
         $script =
 <<<JAVASCRIPT
@@ -42,11 +46,6 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', {$code}, 'auto');
 ga('send', 'pageview');
 JAVASCRIPT;
-
-        if($script = parent::applyNonce($script)) {
-            return $script;
-        } else {
-            return null;
-        }
+        return parent::applyNonce($script);
     }
 }

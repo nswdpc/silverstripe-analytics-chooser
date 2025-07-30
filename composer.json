@@ -15,14 +15,20 @@
         }
     ],
     "require": {
-        "silverstripe/siteconfig" : "^4 || ^5"
+        "silverstripe/siteconfig" : "^5"
     },
     "suggest" : {
         "nswdpc/silverstripe-csp" : "Nonce attribute value support"
     },
     "require-dev": {
+        "cambis/silverstripe-rector": "^2",
         "phpunit/phpunit": "^9.5",
-        "friendsofphp/php-cs-fixer": "^3"
+        "cambis/silverstan": "^2",
+        "nswdpc/ci-files": "dev-v-4",
+        "friendsofphp/php-cs-fixer": "^3",
+        "phpstan/phpstan": "^2",
+        "phpstan/phpstan-phpunit": "^2",
+        "rector/rector": "^2"
     },
     "autoload": {
         "psr-4": {
@@ -32,6 +38,14 @@
             "NSWDPC\\AnalyticsChooser\\Tests\\": [
                 "tests/"
             ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "silverstripe/vendor-plugin": true,
+            "silverstripe/recipe-plugin": true,
+            "phpstan/extension-installer": true
         }
     }
 }

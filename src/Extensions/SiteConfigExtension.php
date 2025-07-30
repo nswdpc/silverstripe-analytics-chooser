@@ -3,25 +3,26 @@
 namespace NSWDPC\AnalyticsChooser\Extensions;
 
 use NSWDPC\AnalyticsChooser\Services\AbstractAnalyticsService;
-use Silverstripe\ORM\DataExtension;
-use Silverstripe\Forms\FieldList;
-use Silverstripe\Forms\CompositeField;
-use Silverstripe\Forms\DropdownField;
-use Silverstripe\Forms\TextField;
+use SilverStripe\ORM\DataExtension;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\CompositeField;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
  * Provide administration selection options for choosing an Analytics service
  * For historical reasons the fields are prefixed Google*
+ * @property ?string $GoogleTagManagerCode
+ * @property ?string $GoogleImplementation
+ * @extends \SilverStripe\ORM\DataExtension<(\SilverStripe\SiteConfig\SiteConfig & static)>
  */
 class SiteConfigExtension extends DataExtension
 {
-
     /**
-     * @var array
      * @config
      */
-    private static $db = [
+    private static array $db = [
         'GoogleTagManagerCode' => 'Varchar(255)',
         'GoogleImplementation' => 'Varchar(16)'
     ];
@@ -66,23 +67,26 @@ class SiteConfigExtension extends DataExtension
     /**
      * Get the current analytics implementation
      */
-    public function getAnalyticsImplementation() : ?AbstractAnalyticsService {
+    public function getAnalyticsImplementation(): ?AbstractAnalyticsService
+    {
         $inst = null;
-        if($implementationCode = $this->owner->GoogleImplementation) {
-            $inst = AbstractAnalyticsService::getImplementation( $implementationCode );
+        if ($implementationCode = $this->getOwner()->GoogleImplementation) {
+            $inst = AbstractAnalyticsService::getImplementation($implementationCode);
         }
+
         return $inst;
     }
 
     /**
      * Template method to provide implementation of analytics
      */
-    public function ProvideAnalyticsImplementation() : ?DBHTMLText {
-        if($inst = $this->getAnalyticsImplementation()) {
+    public function ProvideAnalyticsImplementation(): ?DBHTMLText
+    {
+        if (($inst = $this->getAnalyticsImplementation()) instanceof \NSWDPC\AnalyticsChooser\Services\AbstractAnalyticsService) {
             $context = [
-                'SiteConfig' => $this->owner
+                'SiteConfig' => $this->getOwner()
             ];
-            return $inst->provide($this->owner->GoogleTagManagerCode ?? '', $context);
+            return $inst->provide($this->getOwner()->GoogleTagManagerCode ?? '', $context);
         } else {
             return null;
         }
@@ -91,7 +95,8 @@ class SiteConfigExtension extends DataExtension
     /**
      * Get all available implementations
      */
-    public function getAnalyticsImplementations() : array {
+    public function getAnalyticsImplementations(): array
+    {
         return AbstractAnalyticsService::getImplementations();
     }
 
