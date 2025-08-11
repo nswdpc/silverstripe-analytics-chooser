@@ -108,7 +108,7 @@ abstract class AbstractAnalyticsService
      */
     public function getSiteConfigFromContext(array $context): ?SiteConfig
     {
-        if(isset($context['SiteConfig']) && $context['SiteConfig'] instanceof SiteConfig) {
+        if (isset($context['SiteConfig']) && $context['SiteConfig'] instanceof SiteConfig) {
             return $context['SiteConfig'];
         } else {
             return null;
@@ -121,14 +121,15 @@ abstract class AbstractAnalyticsService
     public function getAnalyticsConfig(array $context): array
     {
         try {
-            if(($siteConfig = $this->getSiteConfigFromContext($context)) instanceof \SilverStripe\SiteConfig\SiteConfig) {
+            if (($siteConfig = $this->getSiteConfigFromContext($context)) instanceof \SilverStripe\SiteConfig\SiteConfig) {
                 $config = $siteConfig->dbObject('AnalyticsKeyValue');
-                if($config instanceof MultiValueField) {
+                if ($config instanceof MultiValueField) {
                     $keyValue = $config->getValue();
                     return is_array($keyValue) ? $keyValue : [];
                 }
             }
-        } catch (\Exception) {}
+        } catch (\Exception) {
+        }
 
         return [];
     }
