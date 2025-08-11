@@ -7,6 +7,7 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
 /**
  * GA3 implementation
  * @author James
+ * @deprecated Universal Analytics has been replaced by GA4. Will be removed in a future major version release
  */
 class GA3 extends AbstractAnalyticsService
 {
@@ -23,7 +24,7 @@ class GA3 extends AbstractAnalyticsService
      */
     public static function getDescription(): string
     {
-        return _t('AnalyticsChooser.GOOGLE_ANALYTICS_3', 'Google Analytics v3 (analytics.js)');
+        return _t('AnalyticsChooser.GOOGLE_ANALYTICS_3', 'Google Analytics v3 (analytics.js) - do not use');
     }
 
     /**
