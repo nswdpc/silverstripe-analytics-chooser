@@ -151,4 +151,17 @@ abstract class AbstractAnalyticsService
         return \SilverStripe\Core\Convert::raw2js($code);
     }
 
+    /**
+     * Return the provider script
+     */
+    final public function getProviderScript($value): ?DBHTMLText
+    {
+        $field = DBField::create_field('HTMLFragment', $value);
+        if($field instanceof DBHTMLText)  {
+            return $field;
+        } else {
+            return null;
+        }
+    }
+
 }

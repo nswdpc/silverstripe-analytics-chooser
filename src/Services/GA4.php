@@ -60,7 +60,7 @@ JAVASCRIPT;
 
         //set up the config script, with an optional nonce attribute value added
         $configScript = parent::applyNonce($script);
-        return DBField::create_field('HTMLFragment', $gtag . "\n" . $configScript->getValue());
+        return parent::getProviderScript($gtag . "\n" . $configScript->getValue());
 
     }
 }
