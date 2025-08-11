@@ -53,9 +53,10 @@ class ImplementationTest extends SapphireTest
 
     public function testGA4(): void
     {
+        $code = 'ga4-test-code';
         $siteConfig = SiteConfig::current_site_config();
         $siteConfig->GoogleImplementation = GA4::getCode();
-        $siteConfig->GoogleTagManagerCode = 'ga4-test-code';
+        $siteConfig->GoogleTagManagerCode = $code;
         $siteConfig->write();
 
         $this->assertInstanceOf(GA4::class, $siteConfig->getAnalyticsImplementation());
@@ -64,7 +65,7 @@ class ImplementationTest extends SapphireTest
         $htmlTemplate = $htmlField->forTemplate();
 
         $this->assertStringContainsString('<script nonce="test-only">', $htmlTemplate);
-        $this->assertStringContainsString('"ga4-test-code"', $htmlTemplate);
+        $this->assertStringContainsString("gtag('config', '{$code}', {});", $htmlTemplate);
 
 
     }
@@ -138,9 +139,10 @@ class ImplementationTest extends SapphireTest
 
     public function testGA4InvalidCode(): void
     {
+        $code = 'GA4-;</script><script>console.log(1);';
         $siteConfig = SiteConfig::current_site_config();
         $siteConfig->GoogleImplementation = GA4::getCode();
-        $siteConfig->GoogleTagManagerCode = 'GA4-;</script><script>console.log(1);';
+        $siteConfig->GoogleTagManagerCode = $code;
         $siteConfig->write();
 
         $this->assertInstanceOf(GA4::class, $siteConfig->getAnalyticsImplementation());
@@ -149,7 +151,7 @@ class ImplementationTest extends SapphireTest
         $htmlTemplate = $htmlField->forTemplate();
 
         $this->assertStringContainsString('<script nonce="test-only">', $htmlTemplate);
-        $this->assertStringContainsString(json_encode(htmlspecialchars($siteConfig->GoogleTagManagerCode)), $htmlTemplate);
+        $this->assertStringNotContainsString("gtag('config', '{$code}', {});", $htmlTemplate);
     }
 
     public function testGTMInvalidCode(): void
