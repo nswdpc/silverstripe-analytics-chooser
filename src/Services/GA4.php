@@ -2,6 +2,7 @@
 
 namespace NSWDPC\AnalyticsChooser\Services;
 
+use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\View\HTML;
 
@@ -37,27 +38,29 @@ class GA4 extends AbstractAnalyticsService
             return null;
         }
 
-        // Set up inline script
-        $gtagCode = $code;
-        $code = json_encode(htmlspecialchars($code));
+        $configEncoded = $this->getAnalyticsConfigForScript($context);
+        $configCode = $this->getAnalyticsServiceCodeForScript($code);
+
         $script =
 <<<JAVASCRIPT
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', {$code});
+gtag('config', '{$configCode}', {$configEncoded});
 JAVASCRIPT;
-        $script = parent::applyNonce($script);
+
         // GA4 requires gtag.js
-        $preScript = HTML::createTag(
+        $gtag = HTML::createTag(
             'script',
             [
-                'src' => "https://www.googletagmanager.com/gtag/js?id=" . $gtagCode,
+                'src' => "https://www.googletagmanager.com/gtag/js?id=" . $code,
                 'async' => 'async'
             ]
         );
-        $script->setValue($preScript . "\n" . $script->getValue());
-        return $script;
+
+        //set up the config script, with an optional nonce attribute value added
+        $configScript = parent::applyNonce($script);
+        return DBField::create_field('HTMLFragment', $gtag . "\n" . $configScript->getValue());
 
     }
 }

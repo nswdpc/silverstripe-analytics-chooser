@@ -9,6 +9,7 @@ use SilverStripe\Forms\CompositeField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\FieldType\DBHTMLText;
+use Symbiote\MultiValueField\Fields\KeyValueField;
 
 /**
  * Provide administration selection options for choosing an Analytics service
@@ -24,7 +25,8 @@ class SiteConfigExtension extends DataExtension
      */
     private static array $db = [
         'GoogleTagManagerCode' => 'Varchar(255)',
-        'GoogleImplementation' => 'Varchar(16)'
+        'GoogleImplementation' => 'Varchar(16)',
+        'AnalyticsKeyValue' => 'MultiValueField'
     ];
 
     /**
@@ -55,6 +57,12 @@ class SiteConfigExtension extends DataExtension
                                 'example' => 'Eg. GTM-XXXX (GTM), UA-XXXX (GA3), G-XXXX (GA4)'
                             ]
                         )
+                    ),
+                    KeyValueField::create(
+                        'AnalyticsKeyValue',
+                        _t('AnalyticsChooser.ANALYTICS_KEYVALUE_TITLE', 'Provide optional key/value configuration for the analytics implementation.')
+                    )->setRightTitle(
+                        _t('AnalyticsChooser.ANALYTICS_KEYVALUE_EXAMPLE', 'Example: add a variable name on the left and the value of the variable on the right.')
                     )
                 )->setTitle(
                     _t('AnalyticsChooser.MAIN_FIELD_TITLE', 'Analytics')
@@ -83,10 +91,11 @@ class SiteConfigExtension extends DataExtension
     public function ProvideAnalyticsImplementation(): ?DBHTMLText
     {
         if (($inst = $this->getAnalyticsImplementation()) instanceof \NSWDPC\AnalyticsChooser\Services\AbstractAnalyticsService) {
+            $siteConfig = $this->getOwner();
             $context = [
-                'SiteConfig' => $this->getOwner()
+                'SiteConfig' => $siteConfig
             ];
-            return $inst->provide($this->getOwner()->GoogleTagManagerCode ?? '', $context);
+            return $inst->provide($siteConfig->GoogleTagManagerCode ?? '', $context);
         } else {
             return null;
         }

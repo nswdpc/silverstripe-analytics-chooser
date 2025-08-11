@@ -7,7 +7,9 @@ use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\View\HTML;
+use Symbiote\MultiValueField\ORM\FieldType\MultiValueField;
 
 /**
  * Provides an abstract implementation for analytics services
@@ -100,4 +102,51 @@ abstract class AbstractAnalyticsService
         return DBField::create_field(DBHTMLText::class, $html);
 
     }
+
+    /**
+     * Give a context passed to a provider, return the SiteConfig value if it is a SiteConfig instance
+     */
+    public function getSiteConfigFromContext(array $context): ?SiteConfig
+    {
+        if(isset($context['SiteConfig']) && $context['SiteConfig'] instanceof SiteConfig) {
+            return $context['SiteConfig'];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Given a site config, return the AnalyticsKeyValue data as an array of keys and values
+     */
+    public function getAnalyticsConfig(array $context): array
+    {
+        try {
+            if($siteConfig = $this->getSiteConfigFromContext($context)) {
+                $config = $siteConfig->dbObject('AnalyticsKeyValue');
+                if($config instanceof MultiValueField) {
+                    $keyValue = $config->getValue();
+                    return is_array($keyValue) ? $keyValue : [];
+                }
+            }
+        } catch (\Exception $exception) {}
+        return [];
+    }
+
+    /**
+     * Return a JSON encoded representation of the configuration for use in a script tag
+     */
+    final public function getAnalyticsConfigForScript(array $context): string
+    {
+        $config = $this->getAnalyticsConfig($context);
+        return json_encode($config, JSON_FORCE_OBJECT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+    }
+
+    /**
+     * Get the service code, for use in a <script> tag
+     */
+    final public function getAnalyticsServiceCodeForScript(string $code): string
+    {
+        return \SilverStripe\Core\Convert::raw2js($code);
+    }
+
 }
