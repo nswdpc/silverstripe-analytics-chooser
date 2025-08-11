@@ -85,7 +85,7 @@ class ImplementationTest extends SapphireTest
         $htmlTemplate = $htmlField->forTemplate();
 
         $this->assertStringContainsString('<script nonce="test-only">', $htmlTemplate);
-        $this->assertStringContainsString("(window,document,'script','dataLayer', '{$code}');", $htmlTemplate);
+        $this->assertStringContainsString("(window,document,'script','dataLayer','{$code}');", $htmlTemplate);
     }
 
     public function testGTMWithNoNonce(): void
@@ -105,7 +105,7 @@ class ImplementationTest extends SapphireTest
         $htmlTemplate = $htmlField->forTemplate();
 
         $this->assertStringContainsString('<script>', $htmlTemplate);
-        $this->assertStringContainsString("(window,document,'script','dataLayer', '{$code}');", $htmlTemplate);
+        $this->assertStringContainsString("(window,document,'script','dataLayer','{$code}');", $htmlTemplate);
     }
 
     public function testGTMNonce(): void
@@ -123,7 +123,7 @@ class ImplementationTest extends SapphireTest
 
         $this->assertStringContainsString('<script nonce="test-only">', $htmlTemplate);
         $this->assertStringContainsString("setAttribute('nonce',n.nonce||n.getAttribute('nonce'));", $htmlTemplate);
-        $this->assertStringContainsString("(window,document,'script','dataLayer', '{$code}');", $htmlTemplate);
+        $this->assertStringContainsString("(window,document,'script','dataLayer','{$code}');", $htmlTemplate);
     }
 
     public function testGA3InvalidCode(): void
@@ -175,7 +175,7 @@ class ImplementationTest extends SapphireTest
         $htmlTemplate = $htmlField->forTemplate();
 
         $this->assertStringContainsString('<script nonce="test-only">', $htmlTemplate);
-        $this->assertStringNotContainsString("(window,document,'script','dataLayer', '{$code}');", $htmlTemplate);
+        $this->assertStringNotContainsString("(window,document,'script','dataLayer','{$code}');", $htmlTemplate);
     }
 
     public function testGTMNonceInvalidCode(): void
@@ -192,7 +192,7 @@ class ImplementationTest extends SapphireTest
         $htmlTemplate = $htmlField->forTemplate();
 
         $this->assertStringContainsString('<script nonce="test-only">', $htmlTemplate);
-        $this->assertStringNotContainsString("(window,document,'script','dataLayer', '{$code}');", $htmlTemplate);
+        $this->assertStringNotContainsString("(window,document,'script','dataLayer','{$code}');", $htmlTemplate);
     }
 
 }
