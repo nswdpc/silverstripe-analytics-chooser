@@ -2,7 +2,6 @@
 
 namespace NSWDPC\AnalyticsChooser\Services;
 
-use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\View\HTML;
 

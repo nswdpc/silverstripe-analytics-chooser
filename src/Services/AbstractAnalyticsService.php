@@ -157,7 +157,7 @@ abstract class AbstractAnalyticsService
     final public function getProviderScript($value): ?DBHTMLText
     {
         $field = DBField::create_field('HTMLFragment', $value);
-        if($field instanceof DBHTMLText)  {
+        if ($field instanceof DBHTMLText) {
             return $field;
         } else {
             return null;
