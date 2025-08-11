@@ -17,6 +17,7 @@ use Symbiote\MultiValueField\Fields\KeyValueField;
  * @property ?string $GoogleTagManagerCode
  * @property ?string $GoogleImplementation
  * @extends \SilverStripe\ORM\DataExtension<(\SilverStripe\SiteConfig\SiteConfig & static)>
+ * @property mixed $AnalyticsKeyValue
  */
 class SiteConfigExtension extends DataExtension
 {

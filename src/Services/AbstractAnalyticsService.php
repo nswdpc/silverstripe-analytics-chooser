@@ -121,14 +121,15 @@ abstract class AbstractAnalyticsService
     public function getAnalyticsConfig(array $context): array
     {
         try {
-            if($siteConfig = $this->getSiteConfigFromContext($context)) {
+            if(($siteConfig = $this->getSiteConfigFromContext($context)) instanceof \SilverStripe\SiteConfig\SiteConfig) {
                 $config = $siteConfig->dbObject('AnalyticsKeyValue');
                 if($config instanceof MultiValueField) {
                     $keyValue = $config->getValue();
                     return is_array($keyValue) ? $keyValue : [];
                 }
             }
-        } catch (\Exception $exception) {}
+        } catch (\Exception) {}
+
         return [];
     }
 
