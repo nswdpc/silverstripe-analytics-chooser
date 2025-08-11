@@ -99,7 +99,12 @@ abstract class AbstractAnalyticsService
             $attributes,
             trim($script) // the script contents
         );
-        return DBField::create_field(DBHTMLText::class, $html);
+        $field = DBField::create_field('HTMLFragment', $html);
+        if($field instanceof DBHTMLText) {
+            return $field;
+        } else {
+            return null;
+        }
 
     }
 
