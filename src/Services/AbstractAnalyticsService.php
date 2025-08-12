@@ -87,7 +87,7 @@ abstract class AbstractAnalyticsService
     /**
      * Try to apply a nonce to a script
      */
-    final public function applyNonce(string $script, array $attributes = []): DBHTMLText
+    final public function applyNonce(string $script, array $attributes = []): ?DBHTMLText
     {
         $nonceProvider = Injector::inst()->get(NonceProvider::class);
         if ($nonceProvider && $nonceValue = $nonceProvider->getNonceValue()) {
@@ -99,7 +99,12 @@ abstract class AbstractAnalyticsService
             $attributes,
             trim($script) // the script contents
         );
-        return DBField::create_field(DBHTMLText::class, $html);
+        $field = DBField::create_field('HTMLFragment', $html);
+        if ($field instanceof DBHTMLText) {
+            return $field;
+        } else {
+            return null;
+        }
 
     }
 

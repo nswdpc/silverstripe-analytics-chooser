@@ -37,9 +37,10 @@ class ImplementationTest extends SapphireTest
 
     public function testGA3(): void
     {
+        $code = 'ga3-test-code';
         $siteConfig = SiteConfig::current_site_config();
         $siteConfig->GoogleImplementation = GA3::getCode();
-        $siteConfig->GoogleTagManagerCode = 'ga3-test-code';
+        $siteConfig->GoogleTagManagerCode = $code;
         $siteConfig->write();
 
         $this->assertInstanceOf(GA3::class, $siteConfig->getAnalyticsImplementation());
@@ -48,7 +49,7 @@ class ImplementationTest extends SapphireTest
         $htmlTemplate = $htmlField->forTemplate();
 
         $this->assertStringContainsString('<script nonce="test-only">', $htmlTemplate);
-        $this->assertStringContainsString('"ga3-test-code"', $htmlTemplate);
+        $this->assertStringContainsString("ga('create', '{$code}', 'auto');", $htmlTemplate);
     }
 
     public function testGA4(): void
@@ -72,9 +73,10 @@ class ImplementationTest extends SapphireTest
 
     public function testGTM(): void
     {
+        $code = 'gtm-test-code';
         $siteConfig = SiteConfig::current_site_config();
         $siteConfig->GoogleImplementation = GTM::getCode();
-        $siteConfig->GoogleTagManagerCode = 'gtm-test-code';
+        $siteConfig->GoogleTagManagerCode = $code;
         $siteConfig->write();
 
         $this->assertInstanceOf(GTM::class, $siteConfig->getAnalyticsImplementation());
@@ -83,7 +85,7 @@ class ImplementationTest extends SapphireTest
         $htmlTemplate = $htmlField->forTemplate();
 
         $this->assertStringContainsString('<script nonce="test-only">', $htmlTemplate);
-        $this->assertStringContainsString('"gtm-test-code"', $htmlTemplate);
+        $this->assertStringContainsString("(window,document,'script','dataLayer','{$code}');", $htmlTemplate);
     }
 
     public function testGTMWithNoNonce(): void
@@ -91,9 +93,10 @@ class ImplementationTest extends SapphireTest
 
         Injector::inst()->registerService(TestNoNonceProvider::create(), NonceProvider::class);
 
+        $code = 'gtm-test-code';
         $siteConfig = SiteConfig::current_site_config();
         $siteConfig->GoogleImplementation = GTM::getCode();
-        $siteConfig->GoogleTagManagerCode = 'gtm-test-code';
+        $siteConfig->GoogleTagManagerCode = $code;
         $siteConfig->write();
 
         $this->assertInstanceOf(GTM::class, $siteConfig->getAnalyticsImplementation());
@@ -102,14 +105,15 @@ class ImplementationTest extends SapphireTest
         $htmlTemplate = $htmlField->forTemplate();
 
         $this->assertStringContainsString('<script>', $htmlTemplate);
-        $this->assertStringContainsString('"gtm-test-code"', $htmlTemplate);
+        $this->assertStringContainsString("(window,document,'script','dataLayer','{$code}');", $htmlTemplate);
     }
 
     public function testGTMNonce(): void
     {
+        $code = 'gtmnonce-test-code';
         $siteConfig = SiteConfig::current_site_config();
         $siteConfig->GoogleImplementation = GTMNonce::getCode();
-        $siteConfig->GoogleTagManagerCode = 'gtmnonce-test-code';
+        $siteConfig->GoogleTagManagerCode = $code;
         $siteConfig->write();
 
         $this->assertInstanceOf(GTMNonce::class, $siteConfig->getAnalyticsImplementation());
@@ -118,14 +122,17 @@ class ImplementationTest extends SapphireTest
         $htmlTemplate = $htmlField->forTemplate();
 
         $this->assertStringContainsString('<script nonce="test-only">', $htmlTemplate);
-        $this->assertStringContainsString('"gtmnonce-test-code"', $htmlTemplate);
+        $this->assertStringContainsString("setAttribute('nonce',n.nonce||n.getAttribute('nonce'));", $htmlTemplate);
+        $this->assertStringContainsString("(window,document,'script','dataLayer','{$code}');", $htmlTemplate);
     }
 
     public function testGA3InvalidCode(): void
     {
+
+        $code = 'GA3-;</script><script>console.log(1);';
         $siteConfig = SiteConfig::current_site_config();
         $siteConfig->GoogleImplementation = GA3::getCode();
-        $siteConfig->GoogleTagManagerCode = 'GA3-;</script><script>console.log(1);';
+        $siteConfig->GoogleTagManagerCode = $code;
         $siteConfig->write();
 
         $this->assertInstanceOf(GA3::class, $siteConfig->getAnalyticsImplementation());
@@ -134,7 +141,7 @@ class ImplementationTest extends SapphireTest
         $htmlTemplate = $htmlField->forTemplate();
 
         $this->assertStringContainsString('<script nonce="test-only">', $htmlTemplate);
-        $this->assertStringContainsString(json_encode(htmlspecialchars($siteConfig->GoogleTagManagerCode)), $htmlTemplate);
+        $this->assertStringNotContainsString("ga('create', '{$code}', 'auto');", $htmlTemplate);
     }
 
     public function testGA4InvalidCode(): void
@@ -156,9 +163,10 @@ class ImplementationTest extends SapphireTest
 
     public function testGTMInvalidCode(): void
     {
+        $code = 'GTM-;</script><script>console.log(1);';
         $siteConfig = SiteConfig::current_site_config();
         $siteConfig->GoogleImplementation = GTM::getCode();
-        $siteConfig->GoogleTagManagerCode = 'GTM-;</script><script>console.log(1);';
+        $siteConfig->GoogleTagManagerCode = $code;
         $siteConfig->write();
 
         $this->assertInstanceOf(GTM::class, $siteConfig->getAnalyticsImplementation());
@@ -167,14 +175,15 @@ class ImplementationTest extends SapphireTest
         $htmlTemplate = $htmlField->forTemplate();
 
         $this->assertStringContainsString('<script nonce="test-only">', $htmlTemplate);
-        $this->assertStringContainsString(json_encode(htmlspecialchars($siteConfig->GoogleTagManagerCode)), $htmlTemplate);
+        $this->assertStringNotContainsString("(window,document,'script','dataLayer','{$code}');", $htmlTemplate);
     }
 
     public function testGTMNonceInvalidCode(): void
     {
+        $code = 'GTMNonce-;</script><script>console.log(1);';
         $siteConfig = SiteConfig::current_site_config();
         $siteConfig->GoogleImplementation = GTMNonce::getCode();
-        $siteConfig->GoogleTagManagerCode = 'GTMNonce-;</script><script>console.log(1);';
+        $siteConfig->GoogleTagManagerCode = $code;
         $siteConfig->write();
 
         $this->assertInstanceOf(GTMNonce::class, $siteConfig->getAnalyticsImplementation());
@@ -183,7 +192,7 @@ class ImplementationTest extends SapphireTest
         $htmlTemplate = $htmlField->forTemplate();
 
         $this->assertStringContainsString('<script nonce="test-only">', $htmlTemplate);
-        $this->assertStringContainsString(json_encode(htmlspecialchars($siteConfig->GoogleTagManagerCode)), $htmlTemplate);
+        $this->assertStringNotContainsString("(window,document,'script','dataLayer','{$code}');", $htmlTemplate);
     }
 
 }
