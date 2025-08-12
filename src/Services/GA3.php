@@ -7,6 +7,7 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
 /**
  * GA3 implementation
  * @author James
+ * @deprecated Universal Analytics has been replaced by GA4. Will be removed in a future major version release
  */
 class GA3 extends AbstractAnalyticsService
 {
@@ -23,7 +24,7 @@ class GA3 extends AbstractAnalyticsService
      */
     public static function getDescription(): string
     {
-        return _t('AnalyticsChooser.GOOGLE_ANALYTICS_3', 'Google Analytics v3 (analytics.js)');
+        return _t('AnalyticsChooser.GOOGLE_ANALYTICS_3', 'Google Analytics v3 (analytics.js) - do not use');
     }
 
     /**
@@ -36,14 +37,14 @@ class GA3 extends AbstractAnalyticsService
             return null;
         }
 
-        $code = json_encode(htmlspecialchars($code));
+        $configCode = $this->getAnalyticsServiceCodeForScript($code);
         $script =
 <<<JAVASCRIPT
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create', {$code}, 'auto');
+ga('create', '{$configCode}', 'auto');
 ga('send', 'pageview');
 JAVASCRIPT;
         return parent::applyNonce($script);

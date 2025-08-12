@@ -15,7 +15,8 @@
         }
     ],
     "require": {
-        "silverstripe/siteconfig" : "^5"
+        "silverstripe/siteconfig" : "^5",
+        "symbiote/silverstripe-multivaluefield": "^6"
     },
     "suggest" : {
         "nswdpc/silverstripe-csp" : "Nonce attribute value support"
