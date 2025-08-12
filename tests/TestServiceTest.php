@@ -30,7 +30,7 @@ class TestServiceTest extends SapphireTest
         $siteConfig->GoogleTagManagerCode = $code;
         $siteConfig->AnalyticsKeyValue = [
             'key1' => 'value1',
-            'key2' =>'"value2"',
+            'key2' => '"value2"',
             'key3' => '3',
             'key4' => '"4"',
             'key5' => "false",
@@ -68,7 +68,7 @@ class TestServiceTest extends SapphireTest
         ];
 
         $testService = AbstractAnalyticsService::getImplementation(TestService::getCode());
-        foreach($values as $input => $expectedOutput) {
+        foreach ($values as $input => $expectedOutput) {
             $this->assertSame($expectedOutput, $testService->getAnalyticsConfigValue($input), "Failed to validate '{$input}'");
         }
     }

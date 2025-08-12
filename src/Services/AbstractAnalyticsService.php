@@ -130,12 +130,12 @@ abstract class AbstractAnalyticsService
     final public function getAnalyticsConfigValue(string $configValue): mixed
     {
         $pattern = "/^\"[^\"]+\"$/";
-        if(preg_match($pattern, $configValue) == 1) {
+        if (preg_match($pattern, $configValue) == 1) {
             // literal quoted string, return as a string with quotes removed
             return trim($configValue, '"');
-        } elseif($configValue === "false") {
+        } elseif ($configValue === "false") {
             return false;
-        } elseif($configValue === "true") {
+        } elseif ($configValue === "true") {
             return true;
         } elseif ($configValue === "null") {
             return null;
@@ -160,8 +160,8 @@ abstract class AbstractAnalyticsService
                 if ($config instanceof MultiValueField) {
                     $keyValue = $config->getValue();
                     $analyticsConfig = [];
-                    if(is_array($keyValue)) {
-                        foreach($keyValue as $configKey => $configValue) {
+                    if (is_array($keyValue)) {
+                        foreach ($keyValue as $configKey => $configValue) {
                             $analyticsConfig[$configKey] = $this->getAnalyticsConfigValue($configValue);
                         }
                     }

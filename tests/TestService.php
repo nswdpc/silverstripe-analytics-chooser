@@ -11,7 +11,6 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
  */
 class TestService extends AbstractAnalyticsService implements TestOnly
 {
-
     public static function getCode(): string
     {
         return "TestService";
