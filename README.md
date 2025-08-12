@@ -5,7 +5,6 @@ Provides a basic set of analytics services, to choose within the site settings a
 Currently supported:
 
 + GA4
-+ GA3
 + GTM
 + GTM (with CSP nonce support)
 
