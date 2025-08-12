@@ -58,8 +58,11 @@ JAVASCRIPT;
         );
 
         //set up the config script, with an optional nonce attribute value added
-        $configScript = parent::applyNonce($script);
-        return parent::getProviderScript($gtag . "\n" . $configScript->getValue());
+        if($configScript = parent::applyNonce($script)) {
+            return parent::getProviderScript($gtag . "\n" . $configScript->getValue());
+        } else {
+            return null;
+        }
 
     }
 }
