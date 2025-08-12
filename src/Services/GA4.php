@@ -7,6 +7,7 @@ use SilverStripe\View\HTML;
 
 /**
  * GA4 implementation
+ * Refer https://developers.google.com/analytics/devguides/collection/ga4/reference/config for configuration options
  * @author James
  */
 class GA4 extends AbstractAnalyticsService

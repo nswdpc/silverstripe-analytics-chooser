@@ -63,7 +63,7 @@ class SiteConfigExtension extends DataExtension
                         'AnalyticsKeyValue',
                         _t('AnalyticsChooser.ANALYTICS_KEYVALUE_TITLE', 'Provide optional key/value configuration for the analytics implementation.')
                     )->setRightTitle(
-                        _t('AnalyticsChooser.ANALYTICS_KEYVALUE_EXAMPLE', 'Example: add a variable name on the left and the value of the variable on the right.')
+                        _t('AnalyticsChooser.ANALYTICS_KEYVALUE_EXAMPLE', 'Example: add a variable name on the left and the value of the variable on the right. Use double quote characters for a literal string value e.g. "4".')
                     )
                 )->setTitle(
                     _t('AnalyticsChooser.MAIN_FIELD_TITLE', 'Analytics')

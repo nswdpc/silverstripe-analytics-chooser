@@ -121,7 +121,36 @@ abstract class AbstractAnalyticsService
     }
 
     /**
+     * Return the analytics config value based on how the value is formatted
+     * As the KeyValueField stores all values as strings, allow for certain strings
+     * to represent certain config values e.g false, true, null, ints and floats
+     * If a value is quoted e.g "foo" return it as the string foo
+     * The fallback is to return the string as-is
+     */
+    final public function getAnalyticsConfigValue(string $configValue): mixed
+    {
+        $pattern = "/^\"[^\"]+\"$/";
+        if(preg_match($pattern, $configValue) == 1) {
+            // literal quoted string, return as a string with quotes removed
+            return trim($configValue, "\"");
+        } elseif($configValue === "false") {
+            return false;
+        } elseif($configValue === "true") {
+            return true;
+        } else if($configValue === "null") {
+            return null;
+        } else if(($intValue = filter_var($configValue, FILTER_VALIDATE_INT)) !== false) {
+            return $intValue;
+        } else if(($floatValue = filter_var($configValue, FILTER_VALIDATE_FLOAT)) !== false) {
+            return $floatValue;
+        } else {
+            return $configValue;
+        }
+    }
+
+    /**
      * Given a site config, return the AnalyticsKeyValue data as an array of keys and values
+     * Allows for boolean and null special values, if quoted these are treated as strings
      */
     public function getAnalyticsConfig(array $context): array
     {
@@ -130,7 +159,13 @@ abstract class AbstractAnalyticsService
                 $config = $siteConfig->dbObject('AnalyticsKeyValue');
                 if ($config instanceof MultiValueField) {
                     $keyValue = $config->getValue();
-                    return is_array($keyValue) ? $keyValue : [];
+                    $analyticsConfig = [];
+                    if(is_array($keyValue)) {
+                        foreach($keyValue as $configKey => $configValue) {
+                            $analyticsConfig[$configKey] = $this->getAnalyticsConfigValue($configValue);
+                        }
+                    }
+                    return $analyticsConfig;
                 }
             }
         } catch (\Exception) {
