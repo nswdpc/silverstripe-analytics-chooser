@@ -54,7 +54,7 @@ class SiteConfigExtension extends \SilverStripe\Core\Extension
                             'AnalyticsChooser.ANALYTICS_CODE_FIELD_EXAMPLE',
                             'Example: {example}',
                             [
-                                'example' => 'Eg. GTM-XXXX (GTM), UA-XXXX (GA3), G-XXXX (GA4)'
+                                'example' => 'Eg. GTM-XXXX (GTM), G-XXXX (GA4)'
                             ]
                         )
                     ),
