@@ -87,7 +87,7 @@ abstract class AbstractAnalyticsService
     /**
      * Try to apply a nonce to a script
      */
-    final public function applyNonce(string $script, array $attributes = []): DBHTMLText
+    final public function applyNonce(string $script, array $attributes = []): ?DBHTMLText
     {
         $nonceProvider = Injector::inst()->get(NonceProvider::class);
         if ($nonceProvider && $nonceValue = $nonceProvider->getNonceValue()) {
