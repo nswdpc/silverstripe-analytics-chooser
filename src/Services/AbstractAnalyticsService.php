@@ -132,16 +132,16 @@ abstract class AbstractAnalyticsService
         $pattern = "/^\"[^\"]+\"$/";
         if(preg_match($pattern, $configValue) == 1) {
             // literal quoted string, return as a string with quotes removed
-            return trim($configValue, "\"");
+            return trim($configValue, '"');
         } elseif($configValue === "false") {
             return false;
         } elseif($configValue === "true") {
             return true;
-        } else if($configValue === "null") {
+        } elseif ($configValue === "null") {
             return null;
-        } else if(($intValue = filter_var($configValue, FILTER_VALIDATE_INT)) !== false) {
+        } elseif (($intValue = filter_var($configValue, FILTER_VALIDATE_INT)) !== false) {
             return $intValue;
-        } else if(($floatValue = filter_var($configValue, FILTER_VALIDATE_FLOAT)) !== false) {
+        } elseif (($floatValue = filter_var($configValue, FILTER_VALIDATE_FLOAT)) !== false) {
             return $floatValue;
         } else {
             return $configValue;
@@ -165,6 +165,7 @@ abstract class AbstractAnalyticsService
                             $analyticsConfig[$configKey] = $this->getAnalyticsConfigValue($configValue);
                         }
                     }
+
                     return $analyticsConfig;
                 }
             }

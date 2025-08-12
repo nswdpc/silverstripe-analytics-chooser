@@ -55,15 +55,15 @@ class TestServiceTest extends SapphireTest
             "false" => false,
             "true" => true,
             "null" => null,
-            "\"false\"" => "false",
-            "\"true\"" => "true",
-            "\"null\"" => "null",
-            "\"7\"" => "7",
+            '"false"' => "false",
+            '"true"' => "true",
+            '"null"' => "null",
+            '"7"' => "7",
             "7" => 7,
             "name" => "name",
-            "\"name\"" => "name",
+            '"name"' => "name",
             "3.09" => 3.09,
-            "\"4.12\"" => "4.12",
+            '"4.12"' => "4.12",
             "'foo'" => "'foo'"
         ];
 
