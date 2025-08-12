@@ -58,7 +58,7 @@ JAVASCRIPT;
         );
 
         //set up the config script, with an optional nonce attribute value added
-        if($configScript = parent::applyNonce($script)) {
+        if(($configScript = parent::applyNonce($script)) instanceof \SilverStripe\ORM\FieldType\DBHTMLText) {
             return parent::getProviderScript($gtag . "\n" . $configScript->getValue());
         } else {
             return null;
