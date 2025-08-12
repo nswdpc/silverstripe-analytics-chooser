@@ -100,7 +100,7 @@ abstract class AbstractAnalyticsService
             trim($script) // the script contents
         );
         $field = DBField::create_field('HTMLFragment', $html);
-        if($field instanceof DBHTMLText) {
+        if ($field instanceof DBHTMLText) {
             return $field;
         } else {
             return null;
