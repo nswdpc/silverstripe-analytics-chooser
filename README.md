@@ -20,13 +20,13 @@ composer require nswdpc/silverstripe-analytics-chooser
 
 Once installed, your theme will need to include the templates provided by this module:
 
-### Document <head>
+### Document `<head>`
 
 ```html
 <% include NSWDPC/AnalyticsChooser/Implementation %>
 ```
 
-### Document <body>
+### Document `<body>`
 
 Apply an iframe if using GTM:
 
@@ -50,7 +50,7 @@ None, currently
 
 ## Maintainers
 
-+ [dpcdigital@NSWDPC:~$](https://dpc.nsw.gov.au)
++ PD Web Team
 
 ## Bugtracker
 
