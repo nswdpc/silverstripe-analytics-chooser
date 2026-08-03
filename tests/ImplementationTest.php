@@ -2,7 +2,6 @@
 
 namespace NSWDPC\AnalyticsChooser\Tests;
 
-use NSWDPC\AnalyticsChooser\Services\GA3;
 use NSWDPC\AnalyticsChooser\Services\GA4;
 use NSWDPC\AnalyticsChooser\Services\GTM;
 use NSWDPC\AnalyticsChooser\Services\GTMNonce;
@@ -29,27 +28,9 @@ class ImplementationTest extends SapphireTest
     {
         $siteConfig = SiteConfig::current_site_config();
         $list = $siteConfig->getAnalyticsImplementations();
-        $this->assertArrayHasKey('GA3', $list);
         $this->assertArrayHasKey('GA4', $list);
         $this->assertArrayHasKey('GTM', $list);
         $this->assertArrayHasKey('GTMNonce', $list);
-    }
-
-    public function testGA3(): void
-    {
-        $code = 'ga3-test-code';
-        $siteConfig = SiteConfig::current_site_config();
-        $siteConfig->GoogleImplementation = GA3::getCode();
-        $siteConfig->GoogleTagManagerCode = $code;
-        $siteConfig->write();
-
-        $this->assertInstanceOf(GA3::class, $siteConfig->getAnalyticsImplementation());
-
-        $htmlField = $siteConfig->ProvideAnalyticsImplementation();
-        $htmlTemplate = $htmlField->forTemplate();
-
-        $this->assertStringContainsString('<script nonce="test-only">', $htmlTemplate);
-        $this->assertStringContainsString("ga('create', '{$code}', 'auto');", $htmlTemplate);
     }
 
     public function testGA4(): void
@@ -124,24 +105,6 @@ class ImplementationTest extends SapphireTest
         $this->assertStringContainsString('<script nonce="test-only">', $htmlTemplate);
         $this->assertStringContainsString("setAttribute('nonce',n.nonce||n.getAttribute('nonce'));", $htmlTemplate);
         $this->assertStringContainsString("(window,document,'script','dataLayer','{$code}');", $htmlTemplate);
-    }
-
-    public function testGA3InvalidCode(): void
-    {
-
-        $code = 'GA3-;</script><script>console.log(1);';
-        $siteConfig = SiteConfig::current_site_config();
-        $siteConfig->GoogleImplementation = GA3::getCode();
-        $siteConfig->GoogleTagManagerCode = $code;
-        $siteConfig->write();
-
-        $this->assertInstanceOf(GA3::class, $siteConfig->getAnalyticsImplementation());
-
-        $htmlField = $siteConfig->ProvideAnalyticsImplementation();
-        $htmlTemplate = $htmlField->forTemplate();
-
-        $this->assertStringContainsString('<script nonce="test-only">', $htmlTemplate);
-        $this->assertStringNotContainsString("ga('create', '{$code}', 'auto');", $htmlTemplate);
     }
 
     public function testGA4InvalidCode(): void

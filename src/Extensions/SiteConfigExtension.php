@@ -3,7 +3,6 @@
 namespace NSWDPC\AnalyticsChooser\Extensions;
 
 use NSWDPC\AnalyticsChooser\Services\AbstractAnalyticsService;
-use SilverStripe\ORM\DataExtension;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\CompositeField;
 use SilverStripe\Forms\DropdownField;
@@ -16,10 +15,10 @@ use Symbiote\MultiValueField\Fields\KeyValueField;
  * For historical reasons the fields are prefixed Google*
  * @property ?string $GoogleTagManagerCode
  * @property ?string $GoogleImplementation
- * @extends \SilverStripe\ORM\DataExtension<(\SilverStripe\SiteConfig\SiteConfig & static)>
  * @property mixed $AnalyticsKeyValue
+ * @extends \SilverStripe\Core\Extension<\SilverStripe\SiteConfig\SiteConfig&static>
  */
-class SiteConfigExtension extends DataExtension
+class SiteConfigExtension extends \SilverStripe\Core\Extension
 {
     /**
      * @config
@@ -55,7 +54,7 @@ class SiteConfigExtension extends DataExtension
                             'AnalyticsChooser.ANALYTICS_CODE_FIELD_EXAMPLE',
                             'Example: {example}',
                             [
-                                'example' => 'Eg. GTM-XXXX (GTM), UA-XXXX (GA3), G-XXXX (GA4)'
+                                'example' => 'Eg. GTM-XXXX (GTM), G-XXXX (GA4)'
                             ]
                         )
                     ),
